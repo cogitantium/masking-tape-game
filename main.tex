@@ -1,0 +1,73 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\input{preamble.tex}
+
+\begin{document}
+
+\section{The Masking Tape Game}
+This game was developed during a slow Thursday in October, 2019, by a Computer Science group whom shall remain nameless. 
+
+This game and all documentation is released under \href{https://www.gnu.org/licenses/fdl.tex}{GNU Free Documentation License (\url{https://www.gnu.org/licenses/fdl.tex})}\footnote{Contributions are welcome at \url{https://github.com/cogitantium/masking-tape-game}}.
+
+\section{Prerequisites}
+\begin{itemize}
+    \item 1 roll of masking tape
+    \begin{itemize}
+        \item May be partially used to introduce variance
+        \item Brand \textit{tesa\textsuperscript{\textregistered}} works well
+    \end{itemize}
+    \item 1 marker which works on masking tape\footnote{Ball-point pens do not work well}
+\end{itemize}
+
+\section{Rules}
+\begin{enumerate}
+    \item The turn-order must be decided by the algorithm described in section \ref{turn_alg}\footnote{If you can run the algorithm in your head, then that's fine}
+    \item The roller must obey the following conditions:
+    \begin{enumerate}
+        \item Any roll must be thrown from behind the back line
+        \item Any roll must begin rolling within two meters of the back line\footnote{This is to avoid yeeting the roll - instead of rolling the roll}
+        \item Underhand throws are the only kind of throws allowed
+        \item A piece of tape with the name of the participant is placed on the final position
+        \begin{enumerate}
+            \item The final position is not necessarily the furthest position. If the roll bounces back from an obstacle then that resulting position is the final position.
+        \end{enumerate}
+    \end{enumerate}
+    \item Participants waiting on their turn must not jeer or otherwise impact the performance of the roller
+    \item If a participant blocks the rolling roll, rolled by the roller, their mark is reset 
+    \item The winner of the game is the participant who has their mark the furthest from the back line
+    \item The back line is marked by red masking tape near the door-frame of room 1.221 in Novi 9, SLV 312
+    \item Variations on these rules that introduce so-called \textit{drinking-rules} must be submitted by PR before being considered valid\footnote{These rules need not be approved nor merged with \texttt{master} before being valid}
+\end{enumerate}
+
+\pagebreak
+\appendix
+
+\section{Turn-algorithm}\label{turn_alg}
+The turn-order is based on the lexicographic order of the reversed SHA256-hash of each participant's name.
+\begin{code}
+\begin{minted}{python}
+(lambda hashlib, sys: [(i == 0) and bool(print(f" #:         NAME | HASH\n {''.join(['=' for i in range(25)])}")) or bool(print(x)) for i, x in enumerate([f"{i:>2}: {x[0]:>12} | {x[1][:7]}" for i, x in enumerate(sorted([(name, bool(sha.update(name.encode("UTF-8"))) or str(sha.hexdigest())[::-1]) for name, sha in [(name, hashlib.new("sha256")) for name in sys.argv[1:]]], key=lambda x: x[1]))])])(__import__("hashlib"), __import__("sys"))
+\end{minted}
+\end{code}
+
+Naturally, this snippet is self-documenting. On the following input\footnote{Note that names of participants may not contain spaces. Instead, use an agreed-upon delimiter.} \mint{bash}|python gen.py foo bar foo_bar john hüttel rené_hüttel|
+
+The resulting table of turn-order is generated:
+
+\begin{code}
+\begin{minted}{text}
+ #:         NAME | HASH
+ =========================
+ 0:       hüttel | 3e18a42
+ 1:          bar | 9bf8fbf
+ 2:         john | a706cec
+ 3:      foo_bar | ab517ce
+ 4:  rené_hüttel | ca7f318
+ 5:          foo | ea7e662
+\end{minted}
+\end{code}
+
+To no surprise, Hüttel is the participant to start. 
+
+
+\end{document}

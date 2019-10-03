@@ -1,0 +1,50 @@
+\usepackage{lipsum}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{framed}
+\usepackage{verbatim} %multiline comment
+\usepackage{fullpage}
+\usepackage[super]{nth}
+\usepackage{amsmath}
+\usepackage{appendix}
+
+% /today-setup
+\usepackage[UKenglish]{babel}
+\usepackage[useregional]{datetime2}
+\DTMlangsetup[en-GB]{ord=raise,monthyearsep={,\space}}
+\DTMsavedate{sample}{2017-01-31}
+
+% zero-indexed sections
+\setcounter{section}{-1}
+
+\usepackage{hyperref}
+\hypersetup{
+	%pdfpagelabels=true,% is supposedly already set
+	plainpages=false,%
+	pdfauthor={Author(s)},%
+	pdftitle={Title},%
+	pdfsubject={Subject},%
+	bookmarksnumbered=true,%
+	colorlinks=true,%
+	citecolor=black,%
+	filecolor=black,%
+	linkcolor=black,% you should probably change this to black before printing
+	urlcolor=black,%
+	pdfstartview=FitH%
+}
+
+\usepackage[newfloat]{minted}
+\usepackage{caption}
+\usemintedstyle{tango}
+%minted-specific setup
+%default style
+\setminted[]{
+    breaklines,
+    frame=lines,
+    framesep=2mm,
+    baselinestretch=1.2,
+    fontsize=\footnotesize,
+    linenos
+}
+\newenvironment{code}{\captionsetup{type=listing}}{}
+\SetupFloatingEnvironment{listing}{name=Code block}
