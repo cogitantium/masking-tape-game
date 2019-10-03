@@ -1,2 +1,1 @@
 (lambda hashlib, sys: [(i == 0) and bool(print(f" #:         NAME | HASH\n {''.join(['=' for i in range(25)])}")) or bool(print(x)) for i, x in enumerate([f"{i:>2}: {x[0]:>12} | {x[1][:7]}" for i, x in enumerate(sorted([(name, bool(sha.update(name.encode("UTF-8"))) or str(sha.hexdigest())[::-1]) for name, sha in [(name, hashlib.new("sha256")) for name in sys.argv[1:]]], key=lambda x: x[1]))])])(__import__("hashlib"), __import__("sys"))
-
